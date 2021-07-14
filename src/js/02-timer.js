@@ -8,7 +8,9 @@ const timeValue = document.querySelector('.value');
 const day = document.querySelector('[data-days]');
 const hour = document.querySelector('[data-hours]');
 const minute = document.querySelector('[data-minutes]');
-const seconds = document.querySelector('[data-seconds]');
+const second = document.querySelector('[data-seconds]');
+
+
 
    const time = {
    isActive: false,
@@ -16,23 +18,28 @@ const seconds = document.querySelector('[data-seconds]');
       if (this.isActive) {
          return;
       }
-      const onchange = () => input.value;      
-      const startTime = Date.parse(onchange());
-      
       this.isActive = true;
-    this.intervalId = setInterval(() => {
-         let currentTime = Date.parse(new Date());
+      this.intervalId = setInterval(() => {
+      const currentTime= Date.parse(new Date());
+      const onchange = () => input.value;
+      const startTime = Date.parse(onchange());
          const deltaTime = startTime-currentTime;
          const timeConvert =convertMs(deltaTime);
-        console.log(timeConvert)
+      console.log(timeConvert)
+      day.textContent = `${timeConvert.days}`;
+      hour.textContent = `${timeConvert.hours}`;
+      minute.textContent = `${timeConvert.minutes}`;
+      second.textContent = `${timeConvert.seconds}`;
          
-    }, 1000);
+   }, 1000);
+      },
+   
+      stop() {
+         if (timeConvert === 0) {
+            clearInterval(this.intervalId);
+            this.isActive = false; }
       
-   },
-   // stop() {
-   //    clearInterval(this.intervalId);
-   //    this.isActive = false;
-   // }
+   }
 };  
      
   startBtn.addEventListener('click', () => {
@@ -40,36 +47,9 @@ const seconds = document.querySelector('[data-seconds]');
   
 });
 
-// class Timer {
-//   constructor(targetDate) {
-//     this.targetDate = targetDate;
-//     this.start();
-//   }
 
-//   start() {
-//     let currentDate = Date.now();
-  
-//     if (this.targetDate < currentDate) {
-//       Swal.fire("Please choose a date in the future");
-//       refs.startBtn.setAttribute('disabled', true);
-//     } else {
-//       setInterval(() => {
-//         currentDate = Date.now();
-//         let timeCountdown = this.targetDate - currentDate;
-//         // console.log(convertMs(timeCountdown))
-//         this.timerUpdate(convertMs(timeCountdown));
-//       }, 1000);
-//     }
-//   }
 
-//     timerUpdate({days, hours, minutes, seconds}) {
-//       refs.day.innerHTML = `${days}`;
-//       refs.hour.innerHTML = `${hours}`;
-//       refs.minute.innerHTML = `${minutes}`;
-//       refs.seconds.innerHTML = `${seconds}`;
-//     }
 
-// };
 
 function convertMs(ms) {
   // Number of milliseconds per unit of time
