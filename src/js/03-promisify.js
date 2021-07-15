@@ -1,16 +1,23 @@
-// import '../sass/main.scss'
+
 
 // ======================= Subtask 1 =======================
 const delay = ms => {
+   return new Promise((resolve) => {
+      setTimeout(() => {
+         
+         resolve(ms)
+         
+      }, ms)
+   })
   // Change this function
 };
 
 const logger = time => console.log(`Fulfilled after ${time}ms`);
 
 // Tests
-// delay(2000).then(logger); // Fulfilled after 2000ms
-// delay(1000).then(logger); // Fulfilled after 1000ms
-// delay(1500).then(logger); // Fulfilled after 1500ms
+delay(2000).then(logger); // Fulfilled after 2000ms
+delay(1000).then(logger); // Fulfilled after 1000ms
+delay(1500).then(logger); // Fulfilled after 1500ms
 
 // ======================= Subtask 2 =======================
 const users = [
@@ -19,39 +26,44 @@ const users = [
   { name: 'Ajax', active: false },
 ];
 
-const toggleUserState = (allUsers, username, callback) => {
-  const updatedUsers = allUsers.map(user =>
-    user.name === username ? { ...user, active: !user.active } : user
-  );
+const toggleUserState = (allUsers, username) => {
+   return new Promise((resolve) => {
+      const updatedUsers = allUsers.map(user =>
+         user.name === username ? { ...user, active: !user.active } : user
+      );
 
-  callback(updatedUsers);
-};
+      resolve(updatedUsers);
+   })
+}
 
 // Currently the function works like this
 // toggleUserState(users, 'Mango', console.table);
 // toggleUserState(users, 'Ajax', console.table);
 
 // The function should work like this
-// toggleUserState(users, 'Mango').then(console.table);
-// toggleUserState(users, 'Ajax').then(console.table);
+toggleUserState(users, 'Mango').then(console.table);
+toggleUserState(users, 'Ajax').then(console.table);
 
 // ======================= Subtask 3 =======================
 const randomIntegerFromInterval = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
-const makeTransaction = (transaction, onSuccess, onError) => {
-  const delay = randomIntegerFromInterval(200, 500);
+const makeTransaction = (transaction) => {
+   const delay = randomIntegerFromInterval(200, 500);
+   return new Promise((resolve, reject) => {
+      
 
-  setTimeout(() => {
-    const canProcess = Math.random() > 0.3;
+      setTimeout(() => {
+         const canProcess = Math.random() > 0.3;
 
-    if (canProcess) {
-      onSuccess({ id: transaction.id, time: delay });
-    } else {
-      onError(transaction.id);
-    }
-  }, delay);
+         if (canProcess) {
+            resolve({ id: transaction.id, time: delay });
+         } else {
+            reject(transaction.id);
+         }
+      }, delay);
+   })
 };
 
 const logSuccess = ({ id, time }) => {
