@@ -1,3 +1,4 @@
+// import '../sass/main.scss';
 import Swal from 'sweetalert2'
 
 
@@ -11,26 +12,17 @@ const minute = document.querySelector('[data-minutes]');
 const second = document.querySelector('[data-seconds]');
 
 
-
+ 
    const time = {
-   isActive: false,
+      isActive: false,
    start() {
       if (this.isActive) {
          return;
       }
+     inputcorectDate()
       this.isActive = true;
       this.intervalId = setInterval(() => {
-      const currentTime= Date.parse(new Date());
-      const onchange = () => input.value;
-      const startTime = Date.parse(onchange());
-         const deltaTime = startTime-currentTime;
-         const timeConvert =convertMs(deltaTime);
-      console.log(timeConvert)
-      day.textContent = `${timeConvert.days}`;
-      hour.textContent = `${timeConvert.hours}`;
-      minute.textContent = `${timeConvert.minutes}`;
-      second.textContent = `${timeConvert.seconds}`;
-         
+      tick();      
    }, 1000);
       },
    
@@ -45,9 +37,34 @@ const second = document.querySelector('[data-seconds]');
   startBtn.addEventListener('click', () => {
    time.start();
   
-});
+  });
+const tick = () => {
+   const currentTime= Date.parse(new Date());
+      const onchange = () => input.value;
+      const startTime = Date.parse(onchange());
+         const deltaTime = startTime-currentTime;
+         const timeConvert =convertMs(deltaTime);
+      console.log(timeConvert)
+      day.textContent = `${timeConvert.days}`;
+      hour.textContent = `${timeConvert.hours}`;
+      minute.textContent = `${timeConvert.minutes}`;
+      second.textContent = `${timeConvert.seconds}`;
+}
 
-
+function inputcorectDate() {
+      const currentTime= Date.parse(new Date());
+      const onchange = () => input.value;
+      const startTime = Date.parse(onchange());
+    if (startTime < currentTime) {
+        Swal.fire({
+  title: 'Error!',
+  text: 'Please choose a date in the future',
+  icon: 'error',
+  confirmButtonText: 'ok'
+})
+       return
+   }
+}
 
 
 
@@ -78,5 +95,3 @@ function pad(value) {
     return String(value).padStart(2, '0');
 }
 
-// const timer1 = new Timer(Date.parse('July 16 2021'));
-// console.log(timer1);
