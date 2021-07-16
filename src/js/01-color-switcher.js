@@ -17,11 +17,12 @@ function getRandomHexColor() {
 
 let Interval = null;
 startRender.addEventListener('click', function () {
-   if (Interval=true) {
+   if (Interval = true) {
+      
       Interval = setInterval(() => {
          body.style.backgroundColor = getRandomHexColor();
       }, 1000)
-   
+    startRender.setAttribute('disabled', true);
    }
    else {
       return;
@@ -32,10 +33,10 @@ startRender.addEventListener('click', function () {
  stopRender.addEventListener('click', function () {
       if (!Interval==false) {
          clearInterval(Interval);
-         
+          startRender.removeAttribute('disabled');
       }
       else {
-      Interval = null;
+      Interval = false;
       }
    })
 
