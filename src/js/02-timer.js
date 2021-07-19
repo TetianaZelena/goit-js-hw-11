@@ -14,22 +14,23 @@ const second = document.querySelector('[data-seconds]');
 
 
 const time = {
-   currentTime: Date.now(),
+  
    isActive:  startBtn.setAttribute('disabled', true),
    start() {
       if (this.isActive) {
          return;
          
       }
+      const date = new Date();
       
       this.isActive = true;
       this.intervalId = setInterval(() => {
          startBtn.setAttribute('disabled', true);
          const selectData = new Date(input.value);
-       
+       const currentTime = Date.now() - (date.getTimezoneOffset() * 60000);
          const startData = Date.parse(selectData);
          console.log(selectData )
-         const currentTime = Date.now();
+        
          const deltaTime = startData-currentTime;
          const timeConvert =convertMs(deltaTime);
       day.textContent = `${timeConvert.days}`;
@@ -50,7 +51,7 @@ const time = {
 function inputcorectDate() {
 
       const selectData = new Date(input.value);
-  const currentTime=  Date.now();
+   const currentTime = Date.now();
    if (currentTime > selectData) {
       Swal.fire({
          title: 'Error!',
